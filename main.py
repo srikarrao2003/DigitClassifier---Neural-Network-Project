@@ -5,7 +5,7 @@ import os
 import tensorflow as tf
 from tensorflow.keras.layers import Dense
 from tensorflow.keras.layers import Flatten
-
+from keras import regularizers
 data = tf.keras.datasets.mnist
 (X_train,Y_train),(X_test,Y_test) = data.load_data()
 
@@ -14,17 +14,26 @@ X_test = tf.keras.utils.normalize(X_test,axis = 1)
 
 model = tf.keras.models.Sequential(
     [
-        Flatten(input_shape=(28,28)),
-        Dense(128,activation='relu'),
-        Dense(128,activation='relu'),
-        Dense(10,activation='linear')
+        Flatten(),
+        Dense(128,activation='relu',kernel_regularizer = regularizers.l2(1e-4)),
+        Dense(128,activation='relu',kernel_regularizer = regularizers.l2(1e-4)),
+        Dense(10,activation='linear',kernel_regularizer = regularizers.l2(1e-4))
     ]
 )
 model.compile(
     loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
-    optimizer=tf.keras.optimizers.Adam(learning_rate=0.001),
+    optimizer='adam',metrics=['accuracy']
 )
 
-model.fit(X_train,Y_train,epochs=40)
+
+model.fit(X_train,Y_train,epochs=3)
+
+val_loss, val_acc = model.evaluate(X_train, Y_train)
+print(val_loss)
+print(val_acc)
+
+val_loss, val_acc = model.evaluate(X_test, Y_test)
+print(val_loss)
+print(val_acc)
 
 model.save('digitclassif.model')
