@@ -7,10 +7,10 @@ from tensorflow.keras.layers import Dense
 from tensorflow.keras.layers import Flatten
 from keras import regularizers
 data = tf.keras.datasets.mnist
-(X_train,Y_train),(X_test,Y_test) = data.load_data()
+(X_train,Y_train),(X_cv,Y_cv) = data.load_data()
 
 X_train = tf.keras.utils.normalize(X_train,axis = 1)
-X_test = tf.keras.utils.normalize(X_test,axis = 1)
+X_cv = tf.keras.utils.normalize(X_cv,axis = 1)
 
 model = tf.keras.models.Sequential(
     [
@@ -32,7 +32,7 @@ val_loss, val_acc = model.evaluate(X_train, Y_train)
 print(val_loss)
 print(val_acc)
 
-val_loss, val_acc = model.evaluate(X_test, Y_test)
+val_loss, val_acc = model.evaluate(X_cv, Y_cv)
 print(val_loss)
 print(val_acc)
 
