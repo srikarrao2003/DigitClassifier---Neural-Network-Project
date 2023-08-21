@@ -7,6 +7,7 @@ from tensorflow.keras.layers import Dense
 from tensorflow.keras.layers import Flatten
 
 model = tf.keras.models.load_model('D:\ml projects\Handwritten Digit Classifier\digitclassif.model')
+#the path written in the load_model depends on the directory in which the model folder is located
 ytest = [0,1,2,3,4,5,6,7,8,9]
 xtest = []
 for i in range(10):
